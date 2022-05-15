@@ -5,10 +5,11 @@ import input
 default region_is_allowed = false
 
 region_is_allowed {
-    input.blueprint_name != "policy_sample"
+    input.resource_changes[_].name != "my_sg"
 }
 
 region_is_allowed {
-	allowed_regions:= {"eu-west-1", "eu-west-2"}
-	allowed_regions[input.region]
+	region:= input.configuration.provider_config.aws.expressions.region.constant_value
+	allowed_regions:= {"eu-west-1", "eu-west-2"}	
+	allowed_regions[region]
 }
